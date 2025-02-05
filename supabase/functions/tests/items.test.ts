@@ -3,10 +3,8 @@ import { createClient, SupabaseClient } from 'jsr:@supabase/supabase-js@2';
 
 import { StoreItem, storeItems } from '../_shared/store-items.ts';
 
-// Will load the .env file to Deno.env
 import 'https://deno.land/x/dotenv@v3.2.2/load.ts';
 
-// Set up the configuration for the Supabase client
 const supabaseUrl = Deno.env.get('SUPABASE_URL') ?? '';
 const supabaseKey = Deno.env.get('SUPABASE_ANON_KEY') ?? '';
 const options = {

@@ -1,3 +1,7 @@
+import 'https://deno.land/x/dotenv@v3.2.2/load.ts';
+
+const storageUrl = Deno.env.get('STORAGE_URL') ?? '';
+
 export class StoreItem {
   constructor(
     public id: string,
@@ -10,8 +14,6 @@ export class StoreItem {
     public categories: string[] = []
   ) {}
 }
-
-const storageUrl = Deno.env.get('STORAGE_URL') ?? '';
 
 export const storeItems: StoreItem[] = [
   new StoreItem(

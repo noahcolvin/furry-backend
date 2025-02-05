@@ -1,9 +1,5 @@
-import { assertEquals, assertArrayIncludes } from 'jsr:@std/assert';
 import { expect } from 'jsr:@std/expect';
-import { assertType } from "jsr:@std/testing/types";
 import { createClient, SupabaseClient } from 'jsr:@supabase/supabase-js@2';
-
-import { StoreItem, storeItems } from '../_shared/store-items.ts';
 
 import 'https://deno.land/x/dotenv@v3.2.2/load.ts';
 

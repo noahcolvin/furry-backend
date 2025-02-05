@@ -1,3 +1,7 @@
+import 'https://deno.land/x/dotenv@v3.2.2/load.ts';
+
+const storageUrl = Deno.env.get('STORAGE_URL') ?? '';
+
 export class MyFriend {
   name: string;
   image: string;
@@ -7,8 +11,6 @@ export class MyFriend {
     this.image = image;
   }
 }
-
-const storageUrl = Deno.env.get('STORAGE_URL') ?? '';
 
 export const friendImages: string[] = [
   storageUrl + '/furry-public/pets/pet1.jpg',
