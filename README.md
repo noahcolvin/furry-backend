@@ -39,3 +39,19 @@ Functions must be running from previous instructions, then run the tests:
 ```bash
 deno test --allow-all
 ```
+
+## Questions
+#### What is the purpose of this project?
+I created this project to demonstrate a simple backend for a mobile app.
+
+#### The controllers are very simple, why don't they do more?
+Yes, they only GET a few pieces of data. The sample mobile app is not complete and only displays data. If the modile app ever does more, the backend can be expanded to include the rest of the CRUD operations.
+
+#### Why is the data hard-coded?
+Just to keep it simple. In a real application, this data would be stored in a real database. You'd also need a way to add, update, and delete data.
+
+#### Why is there no authentication?
+No need for the current app.
+
+#### Code X is bad, why didn't you do Y?
+This is just a sample exercise and was completed in about a day. I'm sure there are many improvements that could be made. Fell free to make an issue or PR if you have a suggestion. This doesn't need to be perfect but I am certainly open to feedback. I may add to it in the future.

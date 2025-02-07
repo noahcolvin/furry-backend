@@ -1,12 +1,12 @@
-import 'jsr:@supabase/functions-js/edge-runtime.d.ts';
+import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
-import { MyFriend, friendImages, friendNames } from '../_shared/friends.ts';
+import { friendImages, friendNames, MyFriend } from "../_shared/friends.ts";
 
 const generateRandomNumberBetween = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-Deno.serve(_ => {
+Deno.serve((_) => {
   const tempNames = [...friendNames];
   const tempImages = [...friendImages];
   const numberOfFriends: number = generateRandomNumberBetween(1, 3);
@@ -25,5 +25,7 @@ Deno.serve(_ => {
     myFriends.push(new MyFriend(tempName, tempImage));
   }
 
-  return new Response(JSON.stringify({ friends: myFriends }), { headers: { 'Content-Type': 'application/json' } });
+  return new Response(JSON.stringify(myFriends), {
+    headers: { "Content-Type": "application/json" },
+  });
 });
