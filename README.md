@@ -32,7 +32,7 @@ Follow the instructions to set up [Deno](https://deno.com/).
 ```
 SUPABASE_URL=http://localhost:54321
 SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0
-STORAGE_URL=http://{projectId}supabase.co/storage/v1/object/public #make this match the other one
+STORAGE_URL=http://{projectId}.supabase.co/storage/v1/object/public #make this match the other one
 ```
 
 Functions must be running from previous instructions, then run the tests:
@@ -43,6 +43,9 @@ deno test --allow-all
 ## Questions
 #### What is the purpose of this project?
 I created this project to demonstrate a simple backend for a mobile app.
+
+- [furry-backend-express - TypeScript/Node/Express](https://github.com/noahcolvin/furry-backend-express)
+- [furry-backend-dotnet - .NET Core](https://github.com/noahcolvin/furry-backend-dotnet)
 
 #### The controllers are very simple, why don't they do more?
 Yes, they only GET a few pieces of data. The sample mobile app is not complete and only displays data. If the modile app ever does more, the backend can be expanded to include the rest of the CRUD operations.
