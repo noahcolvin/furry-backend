@@ -13,10 +13,8 @@ const options = {
   },
 };
 
-const typedArrayToNormalJson = (data: any) => JSON.parse(JSON.stringify(data));
-
 const testReturnsRandomFriends = async () => {
-  var client: SupabaseClient = createClient(supabaseUrl, supabaseKey, options);
+  const client: SupabaseClient = createClient(supabaseUrl, supabaseKey, options);
 
   const { data: func_data, error: func_error } = await client.functions.invoke('my-friends', {
     body: {},
@@ -26,7 +24,7 @@ const testReturnsRandomFriends = async () => {
     throw new Error('Invalid response: ' + func_error);
   }
 
-  const friends = func_data.friends;
+  const friends = func_data;
 
   expect(friends.length).toBeGreaterThanOrEqual(1);
   expect(friends.length).toBeLessThanOrEqual(3);

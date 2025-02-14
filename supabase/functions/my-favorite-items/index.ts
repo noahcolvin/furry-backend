@@ -1,26 +1,28 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import { count, inArray } from "npm:drizzle-orm";
+import getDb from "../_shared/data/database.ts";
+import { itemTable } from "../_shared/data/schema.ts";
 
-import { StoreItem, storeItems } from "../_shared/store-items.ts";
+const getRandomUniqueNumbers = (max: number): number[] => {
+  const numberOfValues = Math.floor(Math.random() * 3) + 2;
+  const uniqueNumbers = new Set<number>();
 
-const generateRandomNumberBetween = (min: number, max: number): number => {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
-Deno.serve((_) => {
-  const tempItems = [...storeItems];
-  const numberOfFavorites: number = generateRandomNumberBetween(2, 4);
-
-  const myFavorites: StoreItem[] = [];
-
-  for (let i = 0; i < numberOfFavorites; i++) {
-    const itemIndex = generateRandomNumberBetween(0, tempItems.length - 1);
-    const tempItem = tempItems[itemIndex];
-    tempItems.splice(itemIndex, 1);
-
-    myFavorites.push(tempItem);
+  while (uniqueNumbers.size < numberOfValues) {
+    uniqueNumbers.add(Math.floor(Math.random() * max) + 1);
   }
 
-  return new Response(JSON.stringify(myFavorites), {
+  return Array.from(uniqueNumbers);
+};
+
+Deno.serve(async (_) => {
+  const db = getDb();
+  const itemCount = await db.select({ value: count() }).from(itemTable);
+  const indexesToGrab = getRandomUniqueNumbers(itemCount[0].value);
+  const myFavoriteItems = await db.select().from(itemTable).where(
+    inArray(itemTable.id, indexesToGrab),
+  ).execute();
+
+  return new Response(JSON.stringify(myFavoriteItems), {
     headers: { "Content-Type": "application/json" },
   });
 });
