@@ -1,5 +1,7 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
-import { StoreItem, storeItems } from "../_shared/store-items.ts";
+import { or, arrayContains, ilike } from "npm:drizzle-orm";
+import getDb from "../_shared/data/database.ts";
+import { itemTable } from "../_shared/data/schema.ts";
 
 Deno.serve(async (req: Request) => {
   const { url } = req;
@@ -9,37 +11,29 @@ Deno.serve(async (req: Request) => {
   const product = u.searchParams.get("product")?.toLowerCase();
   const searchTerm = u.searchParams.get("search")?.toLowerCase();
 
-  const data: StoreItem[] = storeItems.filter((item) => {
-    if (!animal && !product && !searchTerm) {
-      return true;
-    }
+  const db = getDb();
+  const query = db.select().from(itemTable);
 
-    if (
-      animal &&
-      !item.categories.some((category) => category.toLowerCase() === animal)
-    ) {
-      return false;
-    }
+  if (animal && product) {
+    query.where(arrayContains(itemTable.categories, [animal, product]));
+  } else if (animal) {
+    query.where(arrayContains(itemTable.categories, [animal]));
+  } else if (product) {
+    query.where(arrayContains(itemTable.categories, [product]));
+  }
 
-    if (
-      product &&
-      !item.categories.some((category) => category.toLowerCase() === product)
-    ) {
-      return false;
-    }
+  if (searchTerm) {
+    query.where(
+      or(
+        ilike(itemTable.name, `%${searchTerm}%`),
+        ilike(itemTable.description, `%${searchTerm}%`),
+      ),
+    );
+  }
 
-    if (
-      searchTerm &&
-      (item.name.toLowerCase().includes(searchTerm) ||
-        item.description.toLowerCase().includes(searchTerm))
-    ) {
-      return true;
-    }
+  const items = await query.execute();
 
-    return !searchTerm;
-  });
-
-  return new Response(JSON.stringify(data), {
+  return new Response(JSON.stringify(items), {
     headers: { "Content-Type": "application/json" },
   });
 });

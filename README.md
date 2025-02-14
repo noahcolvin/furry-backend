@@ -51,7 +51,7 @@ I created this project to demonstrate a simple backend for a mobile app.
 Yes, they only GET a few pieces of data. The sample mobile app is not complete and only displays data. If the modile app ever does more, the backend can be expanded to include the rest of the CRUD operations.
 
 #### Why is the data hard-coded?
-Just to keep it simple. In a real application, this data would be stored in a real database. You'd also need a way to add, update, and delete data.
+Just to keep it simple. In a real application, you'd need a way to add, update, and delete data as well.
 
 #### Why is there no authentication?
 No need for the current app.
