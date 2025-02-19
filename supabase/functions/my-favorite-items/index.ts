@@ -3,6 +3,8 @@ import { count, inArray } from "npm:drizzle-orm";
 import getDb from "../_shared/data/database.ts";
 import { itemTable } from "../_shared/data/schema.ts";
 
+const storageUrl = Deno.env.get("STORAGE_URL") ?? "";
+
 const getRandomUniqueNumbers = (max: number): number[] => {
   const numberOfValues = Math.floor(Math.random() * 3) + 2;
   const uniqueNumbers = new Set<number>();
@@ -21,6 +23,10 @@ Deno.serve(async (_) => {
   const myFavoriteItems = await db.select().from(itemTable).where(
     inArray(itemTable.id, indexesToGrab),
   ).execute();
+
+  myFavoriteItems.forEach((item) => {
+    item.image = storageUrl + item.image;
+  });
 
   return new Response(JSON.stringify(myFavoriteItems), {
     headers: { "Content-Type": "application/json" },

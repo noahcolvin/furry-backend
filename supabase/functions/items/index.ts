@@ -3,6 +3,8 @@ import { or, arrayContains, ilike } from "npm:drizzle-orm";
 import getDb from "../_shared/data/database.ts";
 import { itemTable } from "../_shared/data/schema.ts";
 
+const storageUrl = Deno.env.get("STORAGE_URL") ?? "";
+
 Deno.serve(async (req: Request) => {
   const { url } = req;
 
@@ -32,6 +34,10 @@ Deno.serve(async (req: Request) => {
   }
 
   const items = await query.execute();
+
+  items.forEach((item) => {
+    item.image = storageUrl + item.image;
+  });
 
   return new Response(JSON.stringify(items), {
     headers: { "Content-Type": "application/json" },

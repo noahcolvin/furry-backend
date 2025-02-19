@@ -3,6 +3,8 @@ import { count, inArray } from "npm:drizzle-orm";
 import getDb from "../_shared/data/database.ts";
 import { friendTable } from "../_shared/data/schema.ts";
 
+const storageUrl = Deno.env.get("STORAGE_URL") ?? "";
+
 const getRandomUniqueNumbers = (max: number): number[] => {
   const numberOfValues = Math.floor(Math.random() * 3) + 1;
   const uniqueNumbers = new Set<number>();
@@ -21,6 +23,10 @@ Deno.serve(async (_) => {
   const myFriends = await db.select().from(friendTable).where(
     inArray(friendTable.id, indexesToGrab),
   ).execute();
+
+  myFriends.forEach((friend) => {
+    friend.image = storageUrl + friend.image;
+  });
 
   return new Response(JSON.stringify(myFriends), {
     headers: { "Content-Type": "application/json" },
